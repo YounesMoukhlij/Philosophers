@@ -1,4 +1,17 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/02/05 11:53:30 by youmoukh          #+#    #+#              #
+#    Updated: 2024/02/05 16:36:30 by youmoukh         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
+man = philo
+bon = philo_bonus/
 
 SRC =	main.c        \
 		init_infos.c   \
@@ -7,22 +20,36 @@ SRC =	main.c        \
 		philo_functions.c \
 		ft_parse_the_philos.c \
 
-OBJ = ${SRC:.c=.o}
-HEADER = philosophers.h
-NAME = philo
-CFLAGS = -Wall -Wextra -Werror
+SRC_B =	${bon}main_bonus.c        \
+		${bon}init_infos_bonus.c   \
+		${bon}error_message_bonus.c \
+		${bon}error_parsing_bonus.c  \
+		${bon}philo_functions_bonus.c \
+		${bon}ft_parse_the_philos_bonus.c \
 
+OBJ = ${SRC:.c=.o}
+OBJ_B = ${SRC_B:.c=.o}
+HEADER = philosophers.h
+HEADER_B = philo_bonus/philosophers_bonus.h
+NAME = philo
+NAME_B = philo_bonus
+CFLAGS = -Wall -Wextra -Werror
 
 all : ${NAME}
 
+bonus : ${NAME_B}
+
+%_bonus.o : %_bonus.c ${bon}philosophers_bonus.h
+	@cc ${CFLAGS} -c $< -o $@
+
 %.o : %.c ${HEADER}
-	@echo "Compiling ..."
 	@cc ${CFLAGS} -c $< -o $@
 
 ${NAME} : ${OBJ}
-	@echo "Linking ..."
-	@cc $< -o $@
-	@echo "Linking DONE"
+	@cc ${OBJ} -o $@
+
+${NAME_B} : ${OBJ_B}
+	@cc ${OBJ_B} -o $@
 
 clean :
 	@echo "Cleaned Successfully"

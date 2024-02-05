@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_infos.c                                       :+:      :+:    :+:   */
+/*   init_infos_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/05 16:43:44 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/05 16:43:45 by youmoukh         ###   ########.fr       */
+/*   Created: 2024/02/05 11:54:41 by youmoukh          #+#    #+#             */
+/*   Updated: 2024/02/05 16:37:14 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philosophers_bonus.h"
 
 int	init_infos(t_philo *philo, char **av, int ac)
 {

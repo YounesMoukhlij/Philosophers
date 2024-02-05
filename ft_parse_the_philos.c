@@ -12,7 +12,7 @@ int	check_avs(char **av)
 		j = 0;
 		while (av[i][j])
 		{
-			if (av[i][j] < '0' || av[i][j] > '9')
+			if (!(av[i][j] >= '0' || av[i][j] <= '9'))
 				return (1);
 			j++;
 		}
@@ -27,5 +27,4 @@ void	ft_parse_the_philos(int ac, char **av)
 		error_parsing(0);
 	if (check_avs(av))
 		error_parsing(2);
-
 }

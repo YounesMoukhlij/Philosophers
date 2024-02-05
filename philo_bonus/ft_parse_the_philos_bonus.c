@@ -1,25 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_parse_the_philos_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/05 16:43:15 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/05 16:43:17 by youmoukh         ###   ########.fr       */
+/*   Created: 2024/02/05 11:54:36 by youmoukh          #+#    #+#             */
+/*   Updated: 2024/02/05 16:37:07 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philosophers_bonus.h"
 
-int	main(int ac, char **av)
+
+int	check_avs(char **av)
 {
-	t_philo	philo;
+	int	i;
+	int	j;
 
-	ft_parse_the_philos(ac, av);
-	if (init_infos(&philo, av, ac))
-		return (1);
-
-	printf("%d %d %d %d %d\n", philo.philo_members, philo.time_to_die, philo.time_to_eat, philo.time_to_sleep, philo.times_each_philo_must_eat);
+	i = 0;
+	while (av[i])
+	{
+		j = 0;
+		while (av[i][j])
+		{
+			if (av[i][j] < '0' || av[i][j] > '9')
+				return (1);
+			j++;
+		}
+		i++;
+	}
 	return (0);
+}
+
+void	ft_parse_the_philos(int ac, char **av)
+{
+	if (ac < 5 || ac > 6)
+		error_parsing(0);
+	if (check_avs(av))
+		error_parsing(2);
+
 }

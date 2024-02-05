@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   error_parsing_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/05 16:43:15 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/05 16:43:17 by youmoukh         ###   ########.fr       */
+/*   Created: 2024/02/05 11:54:32 by youmoukh          #+#    #+#             */
+/*   Updated: 2024/02/05 16:36:58 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philosophers_bonus.h"
 
-int	main(int ac, char **av)
+void	error_parsing(int mode)
 {
-	t_philo	philo;
-
-	ft_parse_the_philos(ac, av);
-	if (init_infos(&philo, av, ac))
-		return (1);
-
-	printf("%d %d %d %d %d\n", philo.philo_members, philo.time_to_die, philo.time_to_eat, philo.time_to_sleep, philo.times_each_philo_must_eat);
-	return (0);
+	write(2, "Error\n", 6);
+	if (mode == 0)
+		write(2, "Invalid Argument!\n", 19);
+	if (mode == 1)
+		write(2, "You depassed integers try INT_MIN < n < INT_MAX!\n", 50);
+	if (mode == 2)
+		write(2, "Emm something smells fishy! Try AGAIN\n", 39);
+	exit(1);
 }
