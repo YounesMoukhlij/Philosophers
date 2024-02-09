@@ -6,19 +6,20 @@
 #    By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 11:53:30 by youmoukh          #+#    #+#              #
-#    Updated: 2024/02/05 16:36:30 by youmoukh         ###   ########.fr        #
+#    Updated: 2024/02/09 14:27:25 by youmoukh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-man = philo
+man = philo/
 bon = philo_bonus/
 
-SRC =	main.c        \
-		init_infos.c   \
-		error_message.c \
-		error_parsing.c  \
-		philo_functions.c \
-		ft_parse_the_philos.c \
+SRC =	${man}main.c        \
+		${man}init_infos.c   \
+		${man}error_message.c \
+		${man}error_parsing.c  \
+		${man}philo_functions.c \
+		${man}ft_parse_the_philos.c \
+		${man}init_philosphers.c \
 
 SRC_B =	${bon}main_bonus.c        \
 		${bon}init_infos_bonus.c   \
@@ -31,11 +32,11 @@ OBJ = ${SRC:.c=.o}
 OBJ_B = ${SRC_B:.c=.o}
 HEADER = philosophers.h
 HEADER_B = philo_bonus/philosophers_bonus.h
-NAME = philo
-NAME_B = philo_bonus
+NAME = mmmm
+NAME_B = bbbb
 CFLAGS = -Wall -Wextra -Werror
 
-all : ${NAME}
+all : ${NAME} clean
 
 bonus : ${NAME_B}
 

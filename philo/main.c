@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_infos.c                                       :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/05 16:43:44 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/05 16:43:45 by youmoukh         ###   ########.fr       */
+/*   Created: 2024/02/05 16:43:15 by youmoukh          #+#    #+#             */
+/*   Updated: 2024/02/09 14:25:49 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	init_infos(t_philo *philo, char **av, int ac)
+int	main(int ac, char **av)
 {
-	philo->philo_members = ft_atoi(av[1]);
-	philo->time_to_die = ft_atoi(av[2]);
-	philo->time_to_eat = ft_atoi(av[3]);
-	philo->time_to_sleep = ft_atoi(av[4]);
-	if (ac == 5)
-		philo->times_each_philo_must_eat = 0;
-	else
-		philo->times_each_philo_must_eat = ft_atoi(av[5]);
-	if (philo->philo_members == 0 || philo->time_to_die == 0
-		|| philo->time_to_eat == 0 || philo->time_to_sleep == 0)
+	t_program	philo;
+	
+	ft_parse_the_philos(ac, av);
+	if (init_infos(&philo, av, ac))
 		return (1);
+	if (init_philosphers(&philo))
+		return (1);
+	int i = -1;
+	while (++i <  philo.philo_members)
+	{
+		printf("%d %d %d %d %d\n", philo.philo_members, \
+			philo.philo[i].time_to_die, \
+			philo.philo[i].time_to_eat, \
+			philo.philo[i].time_to_sleep, \
+			philo.philo[i].times_each_philo_must_eat);
+	}
 	return (0);
 }
