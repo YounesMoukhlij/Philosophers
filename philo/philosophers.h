@@ -14,6 +14,7 @@
 # define PHILOSOPHERS_H
 
 # include <stdio.h>
+# include <sys/time.h>
 # include <limits.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -21,33 +22,45 @@
 
 typedef struct s_philo
 {
-	pthread_t	thread_philo;
-	int			time_to_die;
-	int			time_to_eat;
-	int			time_to_sleep;
-	int			times_each_philo_must_eat;
-	// int			nbr_forks;
+	pthread_t		thread_philo;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				times_each_philo_must_eat;
+	int				dernier_repas;
+	int				eaten_times;
+	int				left_fork;
+	int				right_fork;
+	int				t_start;
+	int				phi_d;
+	int				forks_number;
 	// int			fork_left;
 	// int			fork_right;
+	struct s_program *philos_infos;
 }	t_philo;
 
 typedef struct s_program
 {
-	int			philo_members;
-	t_philo		*philo;
+	pthread_mutex_t	eat_habbit;
+	pthread_mutex_t	sleep_habbit;
+	pthread_mutex_t	think_habbit;
+	pthread_mutex_t	*forks;
+	int				philo_members;
+	t_philo			*philo;
 }	t_program;
 
 // UTILS
-int		ft_strlen(char *s);
-void	error_parsing(int mode);
-int		ft_atoi(char *s);
-void	error_message(t_program *philo, int mode);
+int			ft_strlen(char *s);
+void		error_parsing(int mode);
+int			ft_atoi(char *s);
+long long	what_time_now(void);
+void		error_message(t_program *philo, int mode);
 
 // CORE FUNC
 int		main(int ac, char **av);
-int		init_infos(t_program *prg, char **av, int ac);
-void	ft_parse_the_philos(int ac, char **av);
-int		init_philosphers(t_program *prg);
-
+int		init_all_infos(t_program *prg, char **av, int ac);
+void	ft_parse_param(int ac, char **av);
+void	init_philosphers(t_program *prg);
+void	*daily_philo_routine(void *param);
 
 #endif

@@ -15,13 +15,13 @@
 int	main(int ac, char **av)
 {
 	t_program	philo;
-	
-	ft_parse_the_philos(ac, av);
-	if (init_infos(&philo, av, ac))
-		return (1);
-	if (init_philosphers(&philo))
-		return (1);
+
+	ft_parse_param(ac, av);
+	if (init_all_infos(&philo, av, ac))
+		error_message(&philo, 4);
 	int i = -1;
+	// printf("others functions %d\n", philo.forks_number);
+
 	while (++i <  philo.philo_members)
 	{
 		printf("%d %d %d %d %d\n", philo.philo_members, \
@@ -30,5 +30,6 @@ int	main(int ac, char **av)
 			philo.philo[i].time_to_sleep, \
 			philo.philo[i].times_each_philo_must_eat);
 	}
+	// free_program(&philo);
 	return (0);
 }

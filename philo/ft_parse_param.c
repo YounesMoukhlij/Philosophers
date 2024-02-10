@@ -12,6 +12,38 @@
 
 #include "philosophers.h"
 
+void	error_message(t_program *philo, int mode)
+{
+	(void) philo;
+
+	write(2, "Error\n", 6);
+	if (mode == 0)
+		write(2, "what ever!\n", 11);
+	if (mode == 1)
+		write(2, "Malloc Failed!\n", 16);
+	if (mode == 2)
+		write(2, "Error creating threads!\n", 25);
+	if (mode == 3)
+		write(2, "Error joing threads!\n", 22);
+	if (mode == 4)
+		write(2, "Program Failed!\n", 17);
+	exit(EXIT_FAILURE);
+}
+
+void	error_parsing(int mode)
+{
+	write(2, "Error\n", 6);
+	if (mode == 0)
+		write(2, "Invalid Argument!\n", 19);
+	if (mode == 1)
+		write(2, "You depassed integers try 0 < n < INT_MAX!\n", 44);
+	if (mode == 2)
+		write(2, "Emm something smells fishy! Try AGAIN\n", 39);
+	if (mode == 3)
+		write(2, "Numbers not valid\n", 19);
+	exit(1);
+}
+
 int	check_if_num(char **av)
 {
 	int	i;
@@ -51,7 +83,8 @@ int	check_if_valid(char **av)
 	}
 	return (0);
 }
-void	ft_parse_the_philos(int ac, char **av)
+
+void	ft_parse_param(int ac, char **av)
 {
 	if (ac < 5 || ac > 6)
 		error_parsing(0);

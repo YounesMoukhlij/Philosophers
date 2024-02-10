@@ -35,3 +35,11 @@ int	ft_atoi(char *s)
 	}
 	return (r * sign);
 }
+
+long long	what_time_now(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}

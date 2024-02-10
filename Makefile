@@ -14,12 +14,10 @@ man = philo/
 bon = philo_bonus/
 
 SRC =	${man}main.c        \
-		${man}init_infos.c   \
-		${man}error_message.c \
-		${man}error_parsing.c  \
-		${man}philo_functions.c \
-		${man}ft_parse_the_philos.c \
-		${man}init_philosphers.c \
+		${man}init_all_infos.c   \
+		${man}philo_functions_utils.c \
+		${man}ft_parse_param.c \
+		${man}philos_life.c \
 
 SRC_B =	${bon}main_bonus.c        \
 		${bon}init_infos_bonus.c   \
@@ -36,9 +34,12 @@ NAME = mmmm
 NAME_B = bbbb
 CFLAGS = -Wall -Wextra -Werror
 
-all : ${NAME} clean
+all : ${NAME} clean play
 
 bonus : ${NAME_B}
+
+play :
+	@./mmmm 2 2 3 1 5
 
 %_bonus.o : %_bonus.c ${bon}philosophers_bonus.h
 	@cc ${CFLAGS} -c $< -o $@
@@ -53,7 +54,7 @@ ${NAME_B} : ${OBJ_B}
 	@cc ${OBJ_B} -o $@
 
 clean :
-	@echo "Cleaned Successfully"
+	@echo "Cleaned Successfully\n"
 	@rm -rf ${OBJ}
 
 fclean : clean
