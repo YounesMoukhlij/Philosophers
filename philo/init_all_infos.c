@@ -12,12 +12,43 @@
 
 #include "philosophers.h"
 
+// void	check_if_dead(t_program *prg)
+// {
+// 	int	i;
+
+// 	while (!(r->all_ate))
+// 	{
+// 		i = -1;
+// 		while (++i < r->nb_philo && !(r->dieded))
+// 		{
+// 			pthread_mutex_lock(&(r->meal_check));
+// 			if (time_diff(p[i].t_last_meal, timestamp()) > r->time_death)
+// 			{
+// 				action_print(r, i, "died");
+// 				r->dieded = 1;
+// 			}
+// 			pthread_mutex_unlock(&(r->meal_check));
+// 			usleep(100);
+// 		}
+// 		if (r->dieded)
+// 			break ;
+// 		i = 0;
+// 		while (r->nb_eat != -1 && i < r->nb_philo && p[i].x_ate >= r->nb_eat)
+// 			i++;
+// 		if (i == r->nb_philo)
+// 			r->all_ate = 1;
+// 	}
+// }
+
+
+
+
+
 void	init_philosphers(t_program *prg)
 {
 	int		i;
 
 	i = -1;
-	// printf("others functions %d\n", prg->forks_number);
 	while (++i < prg->philo_members)
 		if (pthread_create(&(prg->philo[i].thread_philo), NULL, daily_philo_routine, &(prg->philo[i])))
 			error_message(prg, 2);
@@ -25,6 +56,8 @@ void	init_philosphers(t_program *prg)
 	while (++i < prg->philo_members)
 		if (pthread_join(prg->philo[i].thread_philo, NULL))
 			error_message(prg, 3);
+	// check_if_dead(prg);
+
 }
 
 void	init_mutex(t_program *prg)
@@ -65,7 +98,7 @@ int	init_all_infos(t_program *prg, char **av, int ac)
 		prg->philo[i].eaten_times = 0;
 		prg->philo[i].phi_d = i + 1;
 		prg->philo[i].left_fork = i + 1;
-		prg->philo[i].right_fork = i + 2;
+		prg->philo[i].right_fork = (i + 2) % prg->philo_members;
 		prg->philo[i].t_start = 0;
 		if (ac == 5)
 			prg->philo[i].times_each_philo_must_eat = -1;

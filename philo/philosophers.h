@@ -31,7 +31,7 @@ typedef struct s_philo
 	int				eaten_times;
 	int				left_fork;
 	int				right_fork;
-	int				t_start;
+	long long		t_start;
 	int				phi_d;
 	int				forks_number;
 	// int			fork_left;
