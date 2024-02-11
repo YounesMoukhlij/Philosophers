@@ -42,7 +42,7 @@ typedef struct s_philo
 typedef struct s_program
 {
 	pthread_mutex_t	eat_habbit;
-	pthread_mutex_t	sleep_habbit;
+	pthread_mutex_t	print_habbit;
 	pthread_mutex_t	think_habbit;
 	pthread_mutex_t	*forks;
 	int				philo_members;
