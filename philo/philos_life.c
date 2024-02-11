@@ -20,7 +20,6 @@ void	print_func(t_philo *prg, char *str)
 	pthread_mutex_lock(&(p->print_habbit));
 	printf("%lld %d %s\n", (what_time_now() - prg->t_start), prg->phi_d, str);
 	pthread_mutex_unlock(&p->print_habbit);
-
 }
 
 void	time_between_taches(long long time, t_program *prg)
@@ -78,6 +77,7 @@ void	*daily_philo_routine(void *param)
 		time_between_taches(philo->time_to_sleep, prg);
 		print_func(philo, "is thinking");
 	}
+	philo->dernier_repas = what_time_now();
 	return (NULL);
 }
 

@@ -12,6 +12,11 @@
 
 #include "philosophers.h"
 
+void show(void)
+{
+	system("leaks mmmm");
+}
+
 void	free_philos(t_program *philo)
 {
 	int	i;
@@ -20,18 +25,20 @@ void	free_philos(t_program *philo)
 	while (++i < philo->philo_members)
 		pthread_mutex_destroy(&(philo->forks[i]));
 	pthread_mutex_destroy(&(philo->print_habbit));
-	pthread_mutex_destroy(&(philo->think_habbit));
+	pthread_mutex_destroy(&(philo->check_d));
+	free(philo->philo);
+	free(philo->forks);
 }
-
 
 int	main(int ac, char **av)
 {
 	t_program	philo;
 
+	// atexit(show);
 	ft_parse_param(ac, av);
 	if (init_all_infos(&philo, av, ac))
 		error_message(&philo, 4);
-	puts("ttt");
+
 	int i = -1;
 
 	while (++i <  philo.philo_members)
@@ -43,5 +50,6 @@ int	main(int ac, char **av)
 			philo.philo[i].times_each_philo_must_eat);
 	}
 	free_philos(&philo);
+	puts("Program ended\n");
 	return (0);
 }

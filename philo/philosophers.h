@@ -31,6 +31,7 @@ typedef struct s_philo
 	int				eaten_times;
 	int				left_fork;
 	int				right_fork;
+	int				philo_all_eaten;
 	long long		t_start;
 	int				phi_d;
 	int				forks_number;
@@ -43,8 +44,9 @@ typedef struct s_program
 {
 	pthread_mutex_t	eat_habbit;
 	pthread_mutex_t	print_habbit;
-	pthread_mutex_t	think_habbit;
+	pthread_mutex_t	check_d;
 	pthread_mutex_t	*forks;
+	int				dead;
 	int				philo_members;
 	t_philo			*philo;
 }	t_program;
@@ -54,6 +56,7 @@ int			ft_strlen(char *s);
 void		error_parsing(int mode);
 int			ft_atoi(char *s);
 long long	what_time_now(void);
+void		print_func(t_philo *prg, char *str);
 void		error_message(t_program *philo, int mode);
 
 // CORE FUNC
