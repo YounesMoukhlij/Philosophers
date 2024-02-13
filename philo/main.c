@@ -25,7 +25,7 @@ void	free_philos(t_program *philo)
 	while (++i < philo->philo_members)
 		pthread_mutex_destroy(&(philo->forks[i]));
 	pthread_mutex_destroy(&(philo->print_habbit));
-	pthread_mutex_destroy(&(philo->check_d));
+	pthread_mutex_destroy(&(philo->check_if_dead));
 	free(philo->philo);
 	free(philo->forks);
 }
@@ -43,11 +43,11 @@ int	main(int ac, char **av)
 
 	while (++i <  philo.philo_members)
 	{
-		printf("%d %d %d %d %d\n", philo.philo_members, \
-			philo.philo[i].time_to_die, \
-			philo.philo[i].time_to_eat, \
-			philo.philo[i].time_to_sleep, \
-			philo.philo[i].times_each_philo_must_eat);
+		printf("Num philos %d\nTime die %d\nTime eat %d/nTime sleep %d times of eat%d\n", philo.philo_members, \
+			philo.time_to_die, \
+			philo.time_to_eat, \
+			philo.time_to_sleep, \
+			philo.times_each_philo_must_eat);
 	}
 	free_philos(&philo);
 	puts("Program ended\n");

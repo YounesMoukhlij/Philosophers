@@ -22,32 +22,29 @@
 
 typedef struct s_philo
 {
-	pthread_t		thread_philo;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				times_each_philo_must_eat;
-	int				dernier_repas;
-	int				eaten_times;
-	int				left_fork;
-	int				right_fork;
-	int				philo_all_eaten;
-	long long		t_start;
-	int				phi_d;
-	int				forks_number;
-	// int			fork_left;
-	// int			fork_right;
-	struct s_program *philos_infos;
+	int					phi_d;
+	int					eaten_times;
+	int					left_fork_d;
+	pthread_t			thread_philo;
+	int					right_fork_d;
+	int					dernier_repas;
+	struct s_program	*philos_infos;
 }	t_philo;
 
 typedef struct s_program
 {
+	int				philo_members;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				times_each_philo_must_eat;
+	int				philo_all_eaten;
+	long long		t_start;
+	int				dead;
 	pthread_mutex_t	eat_habbit;
 	pthread_mutex_t	print_habbit;
-	pthread_mutex_t	check_d;
+	pthread_mutex_t	check_if_dead;
 	pthread_mutex_t	*forks;
-	int				dead;
-	int				philo_members;
 	t_philo			*philo;
 }	t_program;
 

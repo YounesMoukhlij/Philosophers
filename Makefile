@@ -39,7 +39,7 @@ all : ${NAME} clean play
 bonus : ${NAME_B}
 
 play :
-	@./mmmm 4 30 33 56 3
+	@./mmmm 3 30 33 56
 
 %_bonus.o : %_bonus.c ${bon}philosophers_bonus.h
 	@cc ${CFLAGS} -c $< -o $@
