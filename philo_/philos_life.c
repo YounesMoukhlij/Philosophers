@@ -1,57 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_philosphers.c                                 :+:      :+:    :+:   */
+/*   philos_life.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/07 16:50:49 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/09 18:03:59 by youmoukh         ###   ########.fr       */
+/*   Created: 2024/02/13 15:47:48 by youmoukh          #+#    #+#             */
+/*   Updated: 2024/02/13 17:24:44 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	print_func(t_philo *prg, char *str)
+void	philo_eats(t_philo *philo)
 {
-	t_program	*p;
+	t_program	*prg;
 
-	p = prg->philos_infos;
-	pthread_mutex_lock(&(p->print_habbit));
-	printf("%lld %d %s\n", (what_time_now() - p->t_start), prg->phi_d, str);
-	pthread_mutex_unlock(&p->print_habbit);
-}
-
-void	time_between_taches(long long time, t_program *prg)
-{
-	(void) prg;
-	long long	i;
-
-	i = what_time_now();
-	while (1)
-	{
-		if (what_time_now() - i >= time)
-			break ;
-		usleep(50);
-	}
-}
-
-void	philo_eat(t_philo *philo, t_program *prg)
-{
-	pthread_mutex_lock(&(prg->forks[philo->left_fork_d]));
+	prg = philo->philos_infos;
+	pthread_mutex_lock(&(prg->forks[philo->left_fork_id]));
 	print_func(philo, "has taken a fork");
-	pthread_mutex_lock(&(prg->forks[philo->right_fork_d]));
+	pthread_mutex_lock(&(prg->forks[philo->right_fork_id]));
 	print_func(philo, "has taken a fork");
 	pthread_mutex_lock(&(prg->eat_habbit));
 	print_func(philo, "is eating");
-	philo->dernier_repas = what_time_now();
+	philo->last_meal_time = what_time_now();
 	pthread_mutex_unlock(&(prg->eat_habbit));
 	time_between_taches(prg->time_to_eat, prg);
-	philo->eaten_times++;
-	pthread_mutex_unlock(&(prg->forks[philo->left_fork_d]));
-	pthread_mutex_unlock(&(prg->forks[philo->right_fork_d]));
+	(philo->eaten_times)++;
+	pthread_mutex_unlock(&(prg->forks[philo->left_fork_id]));
+	pthread_mutex_unlock(&(prg->forks[philo->right_fork_id]));
 }
-
 
 void	*daily_philo_routine(void *param)
 {
@@ -60,13 +38,13 @@ void	*daily_philo_routine(void *param)
 
 	philo = (t_philo *)param;
 	prg = philo->philos_infos;
-	if (philo->phi_d % 2 == 0)
-		usleep(20000);
-	while (!prg->dead)
+	if (philo->philo_id % 2)
+		usleep(15000);
+	while (!is_dead(prg))
 	{
-		philo_eat(philo, prg);
-		if (prg->philo_all_eaten)
-			break;
+		philo_eats(philo);
+		if (prg->philo_all_ate)
+			break ;
 		print_func(philo, "is sleeping");
 		time_between_taches(prg->time_to_sleep, prg);
 		print_func(philo, "is thinking");
@@ -74,5 +52,19 @@ void	*daily_philo_routine(void *param)
 	return (NULL);
 }
 
+void	philos_life(t_program *prg)
+{
+	int		i;
+	t_philo	*phi;
 
-
+	i = -1;
+	phi = prg->philos;
+	prg->time_start = what_time_now();
+	while (++i < prg->philo_members)
+	{
+		if (pthread_create(&(phi[i].thread_id), NULL, \
+		daily_philo_routine, &(phi[i])))
+			return ;
+		phi[i].last_meal_time = what_time_now();
+	}
+}

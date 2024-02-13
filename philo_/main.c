@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_message_bonus.c                              :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/05 11:54:28 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/05 16:37:02 by youmoukh         ###   ########.fr       */
+/*   Created: 2024/02/13 15:29:50 by youmoukh          #+#    #+#             */
+/*   Updated: 2024/02/13 17:25:40 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers_bonus.h"
+#include "philosophers.h"
 
-
-void	error_message(t_philo *philo, int mode)
+void	show(void)
 {
-	(void) philo;
+	system("leaks philo");
+}
 
-	write(2, "Error\n", 6);
-	if (mode == 0)
-		write(2, "what ever!\n", 11);
-	exit(EXIT_FAILURE);
+int	main(int ac, char **av)
+{
+	t_program	prg;
+
+	ft_parse_param(ac, av);
+	init_all_infos(&prg, av);
+	init_mutex(&prg);
+	wake_up_philosophers(&prg);
+	philos_life(&prg);
+	check_if_some_philo_is_dead(&prg, prg.philos);
+	free_all_philos(&prg, prg.philos);
+	return (0);
 }

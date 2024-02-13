@@ -5,19 +5,21 @@
 #                                                     +:+ +:+         +:+      #
 #    By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/02/05 11:53:30 by youmoukh          #+#    #+#              #
-#    Updated: 2024/02/09 14:27:25 by youmoukh         ###   ########.fr        #
+#    Created: 2024/02/13 16:04:20 by youmoukh          #+#    #+#              #
+#    Updated: 2024/02/13 17:37:44 by youmoukh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-man = philo/
+man = philo_/
 bon = philo_bonus/
 
-SRC =	${man}main.c        \
-		${man}init_all_infos.c   \
-		${man}philo_functions_utils.c \
+SRC =	${man}main.c \
 		${man}ft_parse_param.c \
+		${man}philo_functions_utils.c \
+		${man}init_all_infos.c   \
 		${man}philos_life.c \
+		${man}check_if_dead.c \
+		${man}free_all_philos.c\
 
 SRC_B =	${bon}main_bonus.c        \
 		${bon}init_infos_bonus.c   \
@@ -28,33 +30,30 @@ SRC_B =	${bon}main_bonus.c        \
 
 OBJ = ${SRC:.c=.o}
 OBJ_B = ${SRC_B:.c=.o}
-HEADER = philosophers.h
-HEADER_B = philo_bonus/philosophers_bonus.h
-NAME = mmmm
-NAME_B = bbbb
+NAME = philo
+NAME_B = philo_bonus
 CFLAGS = -Wall -Wextra -Werror
 
-all : ${NAME} clean play
+all : ${NAME}
 
-bonus : ${NAME_B}
-
-play :
-	@./mmmm 3 30 33 56
+bonus : ${NAME_B} clean
 
 %_bonus.o : %_bonus.c ${bon}philosophers_bonus.h
 	@cc ${CFLAGS} -c $< -o $@
 
-%.o : %.c ${HEADER}
+%.o : %.c ${man}philosophers.h
 	@cc ${CFLAGS} -c $< -o $@
+	@echo "\033[90mCompiling $< \033[0m"
 
 ${NAME} : ${OBJ}
 	@cc ${OBJ} -o $@
+	@echo "\033[43mLinked Successfully\033[0m"
 
 ${NAME_B} : ${OBJ_B}
 	@cc ${OBJ_B} -o $@
 
 clean :
-	@echo "Cleaned Successfully\n"
+	@echo "\033[34m\nCleaned Successfully\n\033[0m"
 	@rm -rf ${OBJ}
 
 fclean : clean

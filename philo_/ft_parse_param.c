@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_the_philos.c                              :+:      :+:    :+:   */
+/*   ft_parse_param.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:05:06 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/09 13:38:01 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/13 17:27:59 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,19 @@
 void	error_message(t_program *philo, int mode)
 {
 	(void) philo;
-
 	write(2, "Error\n", 6);
 	if (mode == 0)
 		write(2, "what ever!\n", 11);
 	if (mode == 1)
 		write(2, "Malloc Failed!\n", 16);
 	if (mode == 2)
-		write(2, "Error creating threads!\n", 25);
+		write(2, "Creating threads Failed!\n", 26);
 	if (mode == 3)
-		write(2, "Error joing threads!\n", 22);
+		write(2, "Joing threads Failed!\n", 23);
 	if (mode == 4)
 		write(2, "Program Failed!\n", 17);
+	if (mode == 5)
+		write(2, "Creating Mutex Failed!\n", 24);
 	exit(EXIT_FAILURE);
 }
 
@@ -41,7 +42,7 @@ void	error_parsing(int mode)
 		write(2, "Emm something smells fishy! Try AGAIN\n", 39);
 	if (mode == 3)
 		write(2, "Numbers not valid\n", 19);
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 int	check_if_num(char **av)

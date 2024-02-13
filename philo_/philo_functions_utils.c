@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_functions_bonus.c                            :+:      :+:    :+:   */
+/*   philo_functions_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/05 16:37:25 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/05 16:37:28 by youmoukh         ###   ########.fr       */
+/*   Created: 2024/02/13 15:38:02 by youmoukh          #+#    #+#             */
+/*   Updated: 2024/02/13 17:24:22 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers_bonus.h"
+#include "philosophers.h"
 
 int	ft_strlen(char *s)
 {
@@ -45,4 +45,37 @@ int	ft_atoi(char *s)
 		s++;
 	}
 	return (r * sign);
+}
+
+long long	what_time_now(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
+
+void	time_between_taches(long long time, t_program *prg)
+{
+	long long	i;
+
+	i = what_time_now();
+	while (!(prg->dead))
+	{
+		if (what_time_now() - i >= time)
+			break ;
+		usleep(50);
+	}
+}
+
+void	print_func(t_philo *prg, char *str)
+{
+	t_program	*p;
+
+	p = prg->philos_infos;
+	pthread_mutex_lock(&(p->print_habbit));
+	if (!(p->dead))
+		printf("%lld %d %s\n", (what_time_now() - p->time_start), \
+		prg->philo_id, str);
+	pthread_mutex_unlock(&p->print_habbit);
 }
