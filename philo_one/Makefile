@@ -20,7 +20,7 @@ HEADER	= philo.h
 
 all:	$(NAME)
 
-.PHONY:	clean fclean re bonus bench bclean
+.PHONY:	clean fclean re bonus bench bclean playy
 
 $(NAME): $(OBJS)
 	$(CLANG) $(INCLUDE) $(FLAGS) -o $(NAME) $(OBJS)
