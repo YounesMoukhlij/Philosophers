@@ -48,7 +48,7 @@ void	check_if_some_philo_is_dead(t_program *prg, t_philo *philo)
 	while (!(prg->philo_all_ate))
 	{
 		extra_check(prg, philo);
-		if (prg->dead)
+		if (prg->dead == 1)
 			break ;
 		double_check(prg, philo);
 	}

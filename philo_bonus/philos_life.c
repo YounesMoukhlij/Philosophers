@@ -12,44 +12,36 @@
 
 #include "philosophers.h"
 
-void	philo_eats(t_philo *philo)
+// void	philo_eats(t_program *prg)
+// {
+// 	prg = philo->philos_infos;
+// 	sem_wait();
+// 	print_func(philo, "has taken a fork");
+// 	sem_wait();
+// 	print_func(philo, "has taken a fork");
+// 	sem_wait();
+// 	print_func(philo, "is eating");
+// 	philo->last_meal_time = what_time_now();
+// 	sem_wait();
+// 	time_between_taches(prg->time_to_eat, prg);
+// 	(philo->eaten_times)++;
+// 	sem_wait();
+// 	sem_wait();
+// }
+
+void	daily_philo_routine(t_program *philo)
 {
-	t_program	*prg;
+	pthread_t	observator;
 
-	prg = philo->philos_infos;
-	pthread_mutex_lock(&(prg->forks[philo->left_fork_id]));
-	print_func(philo, "has taken a fork");
-	pthread_mutex_lock(&(prg->forks[philo->right_fork_id]));
-	print_func(philo, "has taken a fork");
-	pthread_mutex_lock(&(prg->eat_habbit));
-	print_func(philo, "is eating");
-	philo->last_meal_time = what_time_now();
-	pthread_mutex_unlock(&(prg->eat_habbit));
-	time_between_taches(prg->time_to_eat, prg);
-	(philo->eaten_times)++;
-	pthread_mutex_unlock(&(prg->forks[philo->left_fork_id]));
-	pthread_mutex_unlock(&(prg->forks[philo->right_fork_id]));
-}
-
-void	*daily_philo_routine(void *param)
-{
-	t_philo		*philo;
-	t_program	*prg;
-
-	philo = (t_philo *)param;
-	prg = philo->philos_infos;
-	if (philo->philo_id % 2)
-		usleep(15000);
-	while (!is_dead(prg))
+	pthread_create(&observator, 0, check_if_some_philo_is_dead, philo);
+	while (1999)
 	{
 		philo_eats(philo);
-		if (prg->philo_all_ate)
-			break ;
 		print_func(philo, "is sleeping");
-		time_between_taches(prg->time_to_sleep, prg);
+		time_between_taches(philo->time_to_sleep, philo);
 		print_func(philo, "is thinking");
 	}
-	return (NULL);
+	pthread_join(observator, 0);
 }
 
 void	philos_life(t_program *prg)
@@ -62,9 +54,12 @@ void	philos_life(t_program *prg)
 	prg->time_start = what_time_now();
 	while (++i < prg->philo_members)
 	{
-		if (pthread_create(&(phi[i].thread_id), NULL, \
-		daily_philo_routine, &(phi[i])))
-			return ;
+		prg->philos[i].philo_pid = fork();
+		if (prg->philos[i].philo_pid == 0)
+		{
+			daily_philo_routine(prg);
+			break ;
+		}
 		phi[i].last_meal_time = what_time_now();
 	}
 }
