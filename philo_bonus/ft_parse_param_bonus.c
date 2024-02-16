@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_param.c                                   :+:      :+:    :+:   */
+/*   ft_parse_param_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:05:06 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/13 17:27:59 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/16 17:05:24 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philosophers_bonus.h"
 
 void	error_message(t_program *philo, int mode)
 {
@@ -81,7 +81,7 @@ int	check_if_valid(char **av)
 		return (1);
 	if (av[4] != NULL)
 	{
-		if (ft_atoi(av[1]) <= 0 || ft_atoi(av[1]) >= INT_MAX)
+		if (ft_atoi(av[4]) <= 0 || ft_atoi(av[4]) >= INT_MAX)
 			return (1);
 	}
 	return (0);

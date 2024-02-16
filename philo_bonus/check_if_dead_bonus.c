@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_if_dead.c                                    :+:      :+:    :+:   */
+/*   check_if_dead_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 16:46:26 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/13 17:24:54 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/16 21:14:28 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philosophers_bonus.h"
 
 void	extra_check(t_program *prg, t_philo *philo)
 {
 	int	i;
 
 	i = -1;
-	while (++i < prg->philo_members && !(prg->dead))
+	while (++i < prg->philo_members && !(prg->is_dead))
 	{
-		pthread_mutex_lock(&(prg->eat_habbit));
-		if ((what_time_now() - philo[i].last_meal_time) > prg->time_to_die)
+		sem_wait(prg->print);
+		if ((what_time_now() - philo->last_meal_time) > prg->time_to_die)
 		{
 			print_func(philo, "died");
-			prg->dead = 1;
+			prg->is_dead = 1;
+			// kill(philo->philo_pid, SIGKILL);
+			// exit(1);
 		}
-		pthread_mutex_unlock(&(prg->eat_habbit));
+		sem_post(prg->print);
 		usleep(100);
 	}
 }
@@ -43,24 +45,17 @@ void	double_check(t_program *prg, t_philo *philo)
 		prg->philo_all_ate = 1;
 }
 
-void	check_if_some_philo_is_dead(t_program *prg, t_philo *philo)
+void	*check_if_some_philo_is_dead(void *param)
 {
-	while (1)
-	{
-		// puts("aaa");
-		if ((philo->last_meal_time + prg->time_to_die) < what_time_now())
-		{
-			// puts("Sda");
-			print_func(philo, "died");
-			exit(1);
-		}
-		usleep(1000);
-	}
+	t_program	*prg;
+
+	prg = (t_program *)param;
 	while (!(prg->philo_all_ate))
 	{
-		extra_check(prg, philo);
-		if (prg->dead)
+		extra_check(prg, prg->philos);
+		if (prg->is_dead)
 			break ;
-		double_check(prg, philo);
+		double_check(prg, prg->philos);
 	}
+	return (NULL);
 }

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_all_philos.c                                  :+:      :+:    :+:   */
+/*   free_all_philos_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 16:45:34 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/13 17:21:52 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/16 21:00:48 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philosophers_bonus.h"
 
 void	free_all_philos(t_program *prg, t_philo *philos)
 {
@@ -32,7 +32,7 @@ void	free_all_philos(t_program *prg, t_philo *philos)
 
 int	is_dead(t_program *prg)
 {
-	if (prg->dead == 0)
+	if (prg->is_dead == 0)
 		return (0);
 	return (1);
 }

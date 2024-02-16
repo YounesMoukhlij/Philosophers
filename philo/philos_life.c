@@ -6,7 +6,7 @@
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:47:48 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/13 17:24:44 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/16 19:40:37 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	*daily_philo_routine(void *param)
 	philo = (t_philo *)param;
 	prg = philo->philos_infos;
 	if (philo->philo_id % 2)
-		usleep(2000);
+		usleep(20000);
 	while (!is_dead(prg))
 	{
 		if (prg->philo_all_ate || prg->philo_members == 1)
@@ -54,8 +54,8 @@ void	*daily_philo_routine(void *param)
 
 void	philos_life(t_program *prg)
 {
-	int		i;
 	t_philo	*phi;
+	int		i;
 
 	i = -1;
 	phi = prg->philos;

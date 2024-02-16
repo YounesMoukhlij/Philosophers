@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_functions_utils.c                            :+:      :+:    :+:   */
+/*   philo_functions_utils_bonus.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:38:02 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/13 17:24:22 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/16 21:15:24 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philosophers_bonus.h"
 
 int	ft_strlen(char *s)
 {
@@ -60,7 +60,7 @@ void	time_between_taches(long long time, t_program *prg)
 	long long	i;
 
 	i = what_time_now();
-	while (!(prg->dead))
+	while (!(prg->is_dead))
 	{
 		if (what_time_now() - i >= time)
 			break ;
@@ -73,9 +73,7 @@ void	print_func(t_philo *prg, char *str)
 	t_program	*p;
 
 	p = prg->philos_infos;
-	pthread_mutex_lock(&(p->print_habbit));
-	if (!(p->dead))
+	if (!(p->is_dead))
 		printf("%lld %d %s\n", (what_time_now() - p->time_start), \
 		prg->philo_id, str);
-	pthread_mutex_unlock(&p->print_habbit);
 }

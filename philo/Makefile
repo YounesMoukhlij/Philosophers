@@ -6,7 +6,7 @@
 #    By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/13 16:04:20 by youmoukh          #+#    #+#              #
-#    Updated: 2024/02/13 17:37:44 by youmoukh         ###   ########.fr        #
+#    Updated: 2024/02/16 19:41:03 by youmoukh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ ${NAME} : ${OBJ}
 	@echo "\033[43mLinked Successfully\033[0m"
 
 clean :
-	@echo "\033[34m\nCleaned Successfully\n\033[0m"
+	@echo "\033[34mCleaned Successfully\033[0m"
 	@rm -rf ${OBJ}
 
 fclean : clean
