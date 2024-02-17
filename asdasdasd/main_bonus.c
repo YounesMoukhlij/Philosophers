@@ -5,28 +5,27 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/13 15:29:50 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/16 17:09:39 by youmoukh         ###   ########.fr       */
+/*   Created: 2024/02/17 17:02:29 by youmoukh          #+#    #+#             */
+/*   Updated: 2024/02/17 17:50:02 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers_bonus.h"
-
-void	show(void)
-{
-	system("leaks philo");
-}
+#include "philosopher_bonus.h"
 
 int	main(int ac, char **av)
 {
-	t_program	prg;
+	t_info	*info;
 
-	ft_parse_param(ac, av);
-	init_all_infos(&prg, av);
-	init_semaphores(&prg);
-	wake_up_philosophers(&prg);
-	philos_life(&prg);
-	// check_if_some_philo_is_dead(&prg, prg.philos);
-	// free_all_philos(&prg, prg.philos);
+	if (ac != 5 && ac != 6)
+		ft_puterr("Usage: ./philo <number_of_philos> <time_to_die> "
+			"<time_to_eat> <time_to_sleep> "
+			"[number_of_times_eacih_philosopher_must_eat]\n");
+	info = ft_calloc(1, sizeof(*info));
+	if (!info)
+		ft_puterr("ft_philo_bonus.c:11 - Allocation Error!\n");
+	ft_get_args(info, ac, av);
+	ft_init_sem(info);
+	ft_create_philos(info);
+	ft_free_all(info);
 	return (0);
 }
