@@ -1,16 +1,33 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philosophers.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/30 18:11:11 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/16 09:02:15 by mbari            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "philosophers.h"
+
+int	check_one(t_philo *philo)
+{
+	sem_wait(philo->data->death);
+	if (philo->next_meal < what_time_now())
+	{
+		ft_print_message(DIED, philo);
+		sem_post(philo->data->stop);
+		return (1);
+	}
+	sem_post(philo->data->death);
+	return (0);
+}
+
+int	check_two(t_philo *philo)
+{
+	sem_wait(philo->data->death);
+	if ((philo->data->eat_counter != -1)
+		&& (philo->data->current_eat >= philo->data->max_eat))
+	{
+		ft_print_message(DONE, philo);
+		sem_post(philo->data->stop);
+		return (1);
+	}
+	sem_post(philo->data->death);
+	return (0);
+}
 
 void	*ft_check_death(void *arg)
 {
@@ -19,23 +36,10 @@ void	*ft_check_death(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 	{
-		sem_wait(philo->data->death);
-		if (philo->next_meal < ft_get_time())
-		{
-			ft_print_message(DIED, philo);
-			sem_post(philo->data->stop);
+		if (check_one(philo))
 			break ;
-		}
-		sem_post(philo->data->death);
-		sem_wait(philo->data->death);
-		if ((philo->data->eat_counter != -1)
-			&& (philo->data->current_eat >= philo->data->max_eat))
-		{
-			ft_print_message(DONE, philo);
-			sem_post(philo->data->stop);
+		if (check_two(philo))
 			break ;
-		}
-		sem_post(philo->data->death);
 	}
 	return (NULL);
 }
@@ -43,25 +47,39 @@ void	*ft_check_death(void *arg)
 void	ft_routine(t_philo *philo)
 {
 	pthread_t	death;
+	t_program	*prg;
 
-	philo->next_meal = ft_get_time() + (unsigned int)philo->data->time_to_die;
+	prg = philo->data;
+	philo->next_meal = what_time_now() + prg->time_to_die;
 	pthread_create(&death, NULL, ft_check_death, philo);
-	pthread_detach(death);
 	while (1)
 	{
-		ft_take_fork(philo);
-		ft_eat(philo);
-		ft_sleep(philo);
+		sem_wait(prg->forks);
+		ft_print_message(FORK, philo);
+		sem_wait(prg->forks);
+		ft_print_message(FORK, philo);
+		ft_print_message(EATING, philo);
+		if (prg->eat_counter != -1)
+			prg->current_eat++;
+		time_between_taches(prg->time_to_eat);
+		philo->eating_time = what_time_now();
+		philo->next_meal = philo->eating_time
+			+ prg->time_to_die;
+		sem_post(prg->forks);
+		sem_post(prg->forks);
+		ft_print_message(SLEEPING, philo);
+		time_between_taches(prg->time_to_sleep);
 		ft_print_message(THINKING, philo);
 	}
+	pthread_join(death, 0);
 }
 
-void	ft_create_process(t_simulation *simulation, t_philo *philo)
+void	inisialize_process(t_program *prg, t_philo *philo)
 {
 	int	i;
 
 	i = 0;
-	while (i < simulation->philo_numbers)
+	while (i < prg->philo_numbers)
 	{
 		philo[i].pid = fork();
 		if (philo[i].pid == 0)
@@ -76,24 +94,14 @@ void	ft_create_process(t_simulation *simulation, t_philo *philo)
 
 int	main(int ac, char **av)
 {
-	int				i;
-	t_simulation	simulation;
-	t_philo			*philo;
+	t_program	prg;
 
-	i = 0;
-	if (ac == 5 || ac == 6)
-	{
-		if (ft_parsing(av, &simulation))
-			return (1);
-		philo = ft_philo_init(&simulation);
-		simulation.start = ft_get_time();
-		ft_create_semaphores(&simulation);
-		sem_wait(simulation.stop);
-		ft_create_process(&simulation, philo);
-		sem_wait(simulation.stop);
-		ft_destroy_all(&simulation, philo);
-	}
-	else
-		printf("Error: Too many arguments\n");
-	return (0);
+	ft_parse_param(ac, av);
+	inisialize_data(&prg, av);
+	inisialize_philosophers(&prg);
+	inisialize_semaphores(&prg);
+	sem_wait(prg.stop);
+	inisialize_process(&prg, prg.philos);
+	sem_wait(prg.stop);
+	ft_destroy_all(&prg, prg.philos);
 }

@@ -1,90 +1,93 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_init.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mbari <mbari@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/11 12:34:36 by mbari             #+#    #+#             */
-/*   Updated: 2021/07/16 07:14:06 by mbari            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	ft_create_semaphores(t_simulation *simulation)
+void	inisialize_semaphores(t_program *prg)
 {
 	sem_unlink("death");
 	sem_unlink("message");
 	sem_unlink("stop");
 	sem_unlink("forks");
-	simulation->death = sem_open("death", O_CREAT, 0600, 1);
-	simulation->message = sem_open("message", O_CREAT, 0600, 1);
-	simulation->stop = sem_open("stop", O_CREAT, 0600, 1);
-	simulation->forks = sem_open("forks", O_CREAT, 0600,
-			simulation->philo_numbers);
+	prg->death = sem_open("death", O_CREAT, 0600, 1);
+	prg->message = sem_open("message", O_CREAT, 0600, 1);
+	prg->stop = sem_open("stop", O_CREAT, 0600, 1);
+	prg->forks = sem_open("forks", O_CREAT, 0600,
+			prg->philo_numbers);
 }
 
-void	ft_destroy_all(t_simulation *simulation, t_philo *philo)
+void	ft_destroy_all(t_program *prg, t_philo *philo)
 {
 	int	i;
 
 	i = 0;
-	while (i < simulation->philo_numbers)
+	while (i < prg->philo_numbers)
 		kill(philo[i++].pid, SIGKILL);
-	sem_close(simulation->death);
-	sem_close(simulation->message);
-	sem_close(simulation->stop);
-	sem_close(simulation->forks);
+	sem_close(prg->death);
+	sem_close(prg->message);
+	sem_close(prg->stop);
+	sem_close(prg->forks);
 	free(philo);
 }
 
-t_philo	*ft_philo_init(t_simulation *simulation)
+void	inisialize_philosophers(t_program *prg)
 {
-	t_philo	*philo;
 	int		i;
 
 	i = -1;
-	philo = malloc(sizeof(t_philo) * simulation->philo_numbers);
-	simulation->death = NULL;
-	simulation->stop = NULL;
-	simulation->message = NULL;
-	simulation->forks = NULL;
-	while (++i < simulation->philo_numbers)
-		ft_for_each_philo(simulation, philo, i);
-	return (philo);
+	prg->philos = malloc(sizeof(t_philo) * prg->philo_numbers);
+	if (!prg->philos)
+		error_message(prg, 1);
+	while (++i < prg->philo_numbers)
+	{
+		prg->philos[i].index = i;
+		prg->philos[i].is_dead = 0;
+		prg->philos[i].data = prg;
+		prg->philos[i].pid = -1;
+		if (prg->eat_counter == -1)
+			prg->philos[i].eat_counter = -1;
+		else
+			prg->philos[i].eat_counter = prg->eat_counter;
+	}
 }
 
-void	ft_for_each_philo(t_simulation *simulation, t_philo *philo, int i)
+void	inisialize_data(t_program *prg, char **av)
 {
-	philo[i].index = i;
-	philo[i].is_dead = NO;
-	philo[i].data = simulation;
-	philo[i].pid = -1;
-	if (simulation->eat_counter == -1)
-		philo[i].eat_counter = -1;
+	prg->philo_numbers = ft_atoi(av[1]);
+	prg->time_to_die = ft_atoi(av[2]);
+	prg->time_to_eat = ft_atoi(av[3]);
+	prg->time_to_sleep = ft_atoi(av[4]);
+	prg->start = what_time_now();
+	if (av[5])
+	{
+		prg->eat_counter = ft_atoi(av[5]);
+		prg->current_eat = 0;
+		prg->max_eat = prg->eat_counter * prg->philo_numbers;
+	}
 	else
-		philo[i].eat_counter = simulation->eat_counter;
+	{
+		prg->eat_counter = -1;
+		prg->current_eat = -1;
+		prg->max_eat = -1;
+	}
 }
 
 void	ft_print_message(int id, t_philo *philo)
 {
-	unsigned int	time;
+	long long	time;
 
-	time = ft_get_time() - philo->data->start;
+	time = what_time_now() - philo->data->start;
 	sem_wait(philo->data->message);
 	if (id == FORK)
-		printf("%u\t%d has taken a fork\n", time, philo->index + 1);
+		printf("%lld\t%d has taken a fork\n", time, philo->index + 1);
 	else if (id == EATING)
-		printf("%u\t%d is eating\n", time, philo->index + 1);
+		printf("%lld\t%d is eating\n", time, philo->index + 1);
 	else if (id == SLEEPING)
-		printf("%u\t%d is sleeping\n", time, philo->index + 1);
+		printf("%lld\t%d is sleeping\n", time, philo->index + 1);
 	else if (id == THINKING)
-		printf("%u\t%d is thinking\n", time, philo->index + 1);
+		printf("%lld\t%d is thinking\n", time, philo->index + 1);
 	else if (id == DIED)
-		printf("%u\t%d died\n", time, philo->index + 1);
+		printf("%lld\t%d died\n", time, philo->index + 1);
 	else if (id == DONE)
-		printf("Simulation is Done :)\n");
+		printf("prg is Done :)\n");
 	if (id != DIED)
 		sem_post(philo->data->message);
 }
