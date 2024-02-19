@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_init.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/19 12:38:51 by youmoukh          #+#    #+#             */
+/*   Updated: 2024/02/19 19:29:32 by youmoukh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philosopher_bonus.h"
 
 void	inisialize_semaphores(t_program *prg)
 {
@@ -14,7 +25,7 @@ void	inisialize_semaphores(t_program *prg)
 			prg->philo_numbers);
 }
 
-void	ft_destroy_all(t_program *prg, t_philo *philo)
+void	free_all(t_program *prg, t_philo *philo)
 {
 	int	i;
 
@@ -70,24 +81,12 @@ void	inisialize_data(t_program *prg, char **av)
 	}
 }
 
-void	ft_print_message(int id, t_philo *philo)
+void	print_message(t_philo *philo, char *str)
 {
 	long long	time;
 
 	time = what_time_now() - philo->data->start;
 	sem_wait(philo->data->message);
-	if (id == FORK)
-		printf("%lld\t%d has taken a fork\n", time, philo->index + 1);
-	else if (id == EATING)
-		printf("%lld\t%d is eating\n", time, philo->index + 1);
-	else if (id == SLEEPING)
-		printf("%lld\t%d is sleeping\n", time, philo->index + 1);
-	else if (id == THINKING)
-		printf("%lld\t%d is thinking\n", time, philo->index + 1);
-	else if (id == DIED)
-		printf("%lld\t%d died\n", time, philo->index + 1);
-	else if (id == DONE)
-		printf("prg is Done :)\n");
-	if (id != DIED)
-		sem_post(philo->data->message);
+	printf("%lld\t%d %s\n", time, philo->index + 1, str);
+	sem_post(philo->data->message);
 }

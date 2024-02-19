@@ -6,11 +6,11 @@
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:05:06 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/16 20:26:19 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/19 19:22:51 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philosopher_bonus.h"
 
 void	error_message(t_program *philo, int mode)
 {

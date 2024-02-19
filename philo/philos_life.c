@@ -6,7 +6,7 @@
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:47:48 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/16 19:40:37 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/19 12:33:24 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,12 @@ void	*daily_philo_routine(void *param)
 		usleep(20000);
 	while (!is_dead(prg))
 	{
-		if (prg->philo_all_ate || prg->philo_members == 1)
+		if (prg->philo_members == 1)
+		{
+			lonely_philo(philo);
+			break ;
+		}
+		if (prg->philo_all_ate)
 			break ;
 		philo_eats(philo);
 		print_func(philo, "is sleeping");

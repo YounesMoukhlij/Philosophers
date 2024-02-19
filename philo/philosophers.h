@@ -6,7 +6,7 @@
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:28:29 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/16 18:08:49 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/19 12:31:40 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_program
 	t_philo				*philos;
 }						t_program;
 
+void		lonely_philo(t_philo *philo);
 int			ft_atoi(char *str);
 long long	what_time_now(void);
 int			is_dead(t_program *prg);

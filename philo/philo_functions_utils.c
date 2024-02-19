@@ -6,20 +6,15 @@
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:38:02 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/13 17:24:22 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/19 12:33:10 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	ft_strlen(char *s)
+void	lonely_philo(t_philo *philo)
 {
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	print_func(philo, "has taken a fork");
 }
 
 int	ft_atoi(char *s)

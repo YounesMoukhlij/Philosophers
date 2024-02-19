@@ -1,26 +1,16 @@
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        :::      ::::::::   */
-// /*   philo_functions_utils.c                            :+:      :+:    :+:   */
-// /*                                                    +:+ +:+         +:+     */
-// /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
-// /*                                                +#+#+#+#+#+   +#+           */
-// /*   Created: 2024/02/13 15:38:02 by youmoukh          #+#    #+#             */
-// /*   Updated: 2024/02/13 17:24:22 by youmoukh         ###   ########.fr       */
-// /*                                                                            */
-// /* ************************************************************************** */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_functions_utils.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/13 15:38:02 by youmoukh          #+#    #+#             */
+/*   Updated: 2024/02/19 19:39:25 by youmoukh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "philosophers.h"
-
-// int	ft_strlen(char *s)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (s[i])
-// 		i++;
-// 	return (i);
-// }
+#include "philosopher_bonus.h"
 
 int	ft_atoi(char *s)
 {
@@ -68,3 +58,28 @@ void	time_between_taches(long long time)
 	}
 }
 
+int	check_one(t_philo *philo)
+{
+	sem_wait(philo->data->death);
+	if (philo->next_meal < what_time_now())
+	{
+		print_message(philo, "died");
+		sem_post(philo->data->stop);
+		return (1);
+	}
+	sem_post(philo->data->death);
+	return (0);
+}
+
+int	check_two(t_philo *philo)
+{
+	sem_wait(philo->data->death);
+	if ((philo->data->eat_counter != -1)
+		&& (philo->data->current_eat >= philo->data->max_eat))
+	{
+		sem_post(philo->data->stop);
+		return (1);
+	}
+	sem_post(philo->data->death);
+	return (0);
+}
