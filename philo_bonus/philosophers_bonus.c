@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.c                                     :+:      :+:    :+:   */
+/*   philosophers_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:39:23 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/19 19:15:48 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/20 12:16:14 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,5 @@ int	main(int ac, char **av)
 	inisialize_process(&prg, prg.philos);
 	sem_wait(prg.stop);
 	free_all(&prg, prg.philos);
+	return (0);
 }

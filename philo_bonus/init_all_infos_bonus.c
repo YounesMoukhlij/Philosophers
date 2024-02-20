@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_init.c                                          :+:      :+:    :+:   */
+/*   init_all_infos_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:38:51 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/19 19:29:32 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:46:08 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	free_all(t_program *prg, t_philo *philo)
 	i = 0;
 	while (i < prg->philo_numbers)
 		kill(philo[i++].pid, SIGKILL);
-	sem_close(prg->death);
-	sem_close(prg->message);
 	sem_close(prg->stop);
 	sem_close(prg->forks);
+	sem_close(prg->death);
+	sem_close(prg->message);
 	free(philo);
 }
 

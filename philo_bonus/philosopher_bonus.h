@@ -6,7 +6,7 @@
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:39:28 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/19 19:55:36 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:31:04 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,37 +22,31 @@
 # include <sys/time.h>
 # include <signal.h>
 
-# define FORK 1
-# define EATING 2
-# define SLEEPING 3
-# define THINKING 4
-# define DIED 5
-
 typedef struct s_philo
 {
-	struct s_program	*data;
 	pid_t				pid;
-	long long			next_meal;
 	int					index;
+	struct s_program	*data;
 	int					is_dead;
+	long long			next_meal;
 	int					eat_counter;
 }				t_philo;
 
 typedef struct s_program
 {
-	sem_t			*forks;
-	sem_t			*message;
-	sem_t			*death;
-	sem_t			*stop;
 	long long		start;
-	int				philo_numbers;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				eat_counter;
+	sem_t			*stop;
+	sem_t			*forks;
+	sem_t			*death;
 	int				max_eat;
 	t_philo			*philos;
+	sem_t			*message;
 	int				current_eat;
+	int				eat_counter;
+	int				time_to_die;
+	int				time_to_eat;
+	int				philo_numbers;
+	int				time_to_sleep;
 }				t_program;
 
 void			inisialize_process(t_program *prg, t_philo *philo);

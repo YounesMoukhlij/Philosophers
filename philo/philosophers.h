@@ -6,7 +6,7 @@
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:28:29 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/19 12:31:40 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:57:53 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_philo
 	pthread_t			thread_id;
 	int					right_fork_id;
 	int					eaten_times;
+	pthread_mutex_t		*forks;
 	struct s_program	*philos_infos;
 }	t_philo;
 
@@ -43,17 +44,17 @@ typedef struct s_program
 	int					philo_all_ate;
 	long long			time_start;
 	pthread_mutex_t		eat_habbit;
-	pthread_mutex_t		*forks;
 	pthread_mutex_t		print_habbit;
+	pthread_mutex_t		stop;
 	t_philo				*philos;
 }						t_program;
 
-void		lonely_philo(t_philo *philo);
 int			ft_atoi(char *str);
 long long	what_time_now(void);
 int			is_dead(t_program *prg);
 void		error_parsing(int mode);
 void		init_mutex(t_program *prg);
+void		lonely_philo(t_philo *philo);
 void		philos_life(t_program *rules);
 void		ft_parse_param(int ac, char **av);
 void		print_func(t_philo *prg, char *str);
@@ -63,5 +64,5 @@ void		error_message(t_program *philo, int mode);
 void		free_all_philos(t_program *prg, t_philo *philos);
 void		time_between_taches(long long time, t_program *prg);
 void		check_if_some_philo_is_dead(t_program *r, t_philo *p);
-void		show(void);
+
 #endif

@@ -6,15 +6,15 @@
 #    By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/19 12:39:00 by youmoukh          #+#    #+#              #
-#    Updated: 2024/02/19 19:57:13 by youmoukh         ###   ########.fr        #
+#    Updated: 2024/02/20 17:48:40 by youmoukh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = philo_functions_utils.c \
-	  ft_parse_param.c  \
-	  philosophers.c  \
-	  philo_life.c  \
-	  ft_init.c   \
+SRC = philo_functions_utils_bonus.c \
+	  ft_parse_param_bonus.c  \
+	  philosophers_bonus.c  \
+	  philo_life_bonus.c  \
+	  init_all_infos_bonus.c   \
 
 OBJ = ${SRC:.c=.o}
 NAME = philo_bonus
@@ -30,6 +30,9 @@ all : ${NAME}
 ${NAME} : ${OBJ}
 	@cc ${OBJ} -o $@
 	@echo "\033[43mLinked Successfully\033[0m"
+
+norm :
+	@norminette
 
 clean :
 	@echo "\033[34mCleaned Successfully\033[0m"

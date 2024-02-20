@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_life.c                                       :+:      :+:    :+:   */
+/*   philo_life_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:43:55 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/19 19:55:25 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/20 15:06:46 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher_bonus.h"
 
-void	*ft_check_death(void *arg)
+void	*ft_check_death(void *param)
 {
 	t_philo	*philo;
 
-	philo = (t_philo *)arg;
+	philo = (t_philo *)param;
 	while (1)
 	{
 		if (check_one(philo))
