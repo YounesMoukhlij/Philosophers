@@ -6,11 +6,11 @@
 #    By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/13 16:04:20 by youmoukh          #+#    #+#              #
-#    Updated: 2024/02/20 17:45:56 by youmoukh         ###   ########.fr        #
+#    Updated: 2024/02/16 19:41:03 by youmoukh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC =	philosophers.c \
+SRC =	main.c \
 		ft_parse_param.c \
 		philo_functions_utils.c \
 		init_all_infos.c   \
@@ -20,16 +20,16 @@ SRC =	philosophers.c \
 
 OBJ = ${SRC:.c=.o}
 NAME = philo
-CFLAGS = -Wall -Wextra -Werror -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror
 
-all : ${NAME}
+all : ${NAME} clean
 
 %.o : %.c philosophers.h
 	@cc ${CFLAGS} -c $< -o $@
 	@echo "\033[90mCompiling $< \033[0m"
 
 ${NAME} : ${OBJ}
-	@cc ${CFLAGS} ${OBJ} -o $@
+	@cc ${OBJ} -o $@
 	@echo "\033[43mLinked Successfully\033[0m"
 
 norm :

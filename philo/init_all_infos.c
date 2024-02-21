@@ -6,7 +6,7 @@
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:30:05 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/20 18:04:29 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/13 17:30:28 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,18 @@
 
 void	init_mutex(t_program *prg)
 {
-	// int	i;
+	int	i;
 
-	// i = -1;
-	// prg->forks = malloc(sizeof(pthread_mutex_t) * prg->philo_members);
-	// if (!(prg->philos))
-	// 	error_message(prg, 1);
-	// while (++i < prg->philo_members)
-	// 	if (pthread_mutex_init(&(prg->forks[i]), NULL))
-	// 		error_message(prg, 5); 
+	i = -1;
+	prg->forks = malloc(sizeof(pthread_mutex_t) * prg->philo_members);
+	if (!(prg->philos))
+		error_message(prg, 1);
+	while (++i < prg->philo_members)
+		if (pthread_mutex_init(&(prg->forks[i]), NULL))
+			error_message(prg, 5);
 	if (pthread_mutex_init(&(prg->print_habbit), NULL))
 		error_message(prg, 5);
 	if (pthread_mutex_init(&(prg->eat_habbit), NULL))
-		error_message(prg, 5);
-	if (pthread_mutex_init(&(prg->stop), NULL))
 		error_message(prg, 5);
 }
 
@@ -45,7 +43,6 @@ void	wake_up_philosophers(t_program *prg)
 		prg->philos[i].eaten_times = 0;
 		prg->philos[i].philos_infos = prg;
 		prg->philos[i].last_meal_time = 0;
-		pthread_mutex_init(&(prg->philos[i].forks), NULL);
 		prg->philos[i].philo_id = i + 1;
 		prg->philos[i].left_fork_id = i + 1;
 	}

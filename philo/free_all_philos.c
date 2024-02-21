@@ -6,7 +6,7 @@
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 16:45:34 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/20 18:05:42 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/16 18:08:42 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	free_all_philos(t_program *prg, t_philo *philos)
 		pthread_mutex_destroy(&(prg->forks[i]));
 	pthread_mutex_destroy(&(prg->print_habbit));
 	pthread_mutex_destroy(&(prg->eat_habbit));
-	pthread_mutex_destroy(&(prg->stop));
+	free(prg->forks);
 	free(prg->philos);
 }
 

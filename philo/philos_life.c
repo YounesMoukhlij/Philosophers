@@ -6,7 +6,7 @@
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:47:48 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/19 12:33:24 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/16 19:40:37 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	*daily_philo_routine(void *param)
 	{
 		if (prg->philo_members == 1)
 		{
-			lonely_philo(philo);
+			a_lonely_philo(prg);
 			break ;
 		}
 		if (prg->philo_all_ate)

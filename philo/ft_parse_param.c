@@ -6,7 +6,7 @@
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:05:06 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/20 12:21:40 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/16 20:26:19 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	check_if_valid(char **av)
 		return (1);
 	if (av[4] != NULL)
 	{
-		if (ft_atoi(av[4]) < 0 || ft_atoi(av[4]) >= INT_MAX)
+		if (ft_atoi(av[4]) <= 0 || ft_atoi(av[4]) >= INT_MAX)
 			return (1);
 	}
 	return (0);

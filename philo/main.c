@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers_bonus.c                               :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/19 12:39:23 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/20 12:16:14 by youmoukh         ###   ########.fr       */
+/*   Created: 2024/02/13 15:29:50 by youmoukh          #+#    #+#             */
+/*   Updated: 2024/02/16 18:08:21 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosopher_bonus.h"
+#include "philosophers.h"
+
+void	show(void)
+{
+	system("leaks philo");
+}
 
 int	main(int ac, char **av)
 {
 	t_program	prg;
 
 	ft_parse_param(ac, av);
-	inisialize_data(&prg, av);
-	inisialize_philosophers(&prg);
-	inisialize_semaphores(&prg);
-	sem_wait(prg.stop);
-	inisialize_process(&prg, prg.philos);
-	sem_wait(prg.stop);
-	free_all(&prg, prg.philos);
+	init_all_infos(&prg, av);
+	init_mutex(&prg);
+	wake_up_philosophers(&prg);
+	philos_life(&prg);
+	check_if_some_philo_is_dead(&prg, prg.philos);
+	free_all_philos(&prg, prg.philos);
 	return (0);
 }
