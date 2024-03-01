@@ -6,7 +6,7 @@
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:30:05 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/13 17:30:28 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/23 19:08:56 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ void	init_mutex(t_program *prg)
 	if (pthread_mutex_init(&(prg->print_habbit), NULL))
 		error_message(prg, 5);
 	if (pthread_mutex_init(&(prg->eat_habbit), NULL))
+		error_message(prg, 5);
+	if (pthread_mutex_init(&(prg->death), NULL))
+		error_message(prg, 5);
+	if (pthread_mutex_init(&(prg->all_eat), NULL))
+		error_message(prg, 5);
+	if (pthread_mutex_init(&(prg->check_eaten_times), NULL))
 		error_message(prg, 5);
 }
 

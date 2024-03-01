@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosophers_bonus.h                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/23 17:37:37 by youmoukh          #+#    #+#             */
+/*   Updated: 2024/02/23 19:10:26 by youmoukh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_BONUS_H
 # define PHILOSOPHERS_BONUS_H
@@ -8,19 +19,8 @@
 # include <pthread.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include <string.h>
 # include <sys/time.h>
-# include <fcntl.h>
-# include <sys/stat.h>
-# include <limits.h>
 # include <signal.h>
-
-# define FORK 1
-# define EATING 2
-# define SLEEPING 3
-# define THINKING 4
-# define DIED 5
-# define DONE 6
 
 typedef struct s_philo
 {
@@ -38,6 +38,7 @@ typedef struct s_program
 	sem_t			*forks;
 	sem_t			*message;
 	sem_t			*death;
+	sem_t			*last_meaal;
 	sem_t			*stop;
 	long long		start;
 	int				philo_numbers;
@@ -57,14 +58,14 @@ void			error_parsing(int mode);
 void			error_message(t_program *philo, int mode);
 long long		what_time_now(void);
 void			time_between_taches(long long time);
-
+int				check_two(t_philo *philo);
+int				check_one(t_philo *philo);
 void			ft_routine(t_philo *philo);
 void			*ft_check_death(void *arg);
-
-void			ft_print_message(int id, t_philo *philo);
+void			deliver_message(t_philo *philo, char *str);
 void			inisialize_philosophers(t_program *prg);
 void			inisialize_semaphores(t_program *prg);
 int				ft_parsing(char **av, t_program *prg);
-void			ft_destroy_all(t_program *prg, t_philo *philo);
+void			finish_all(t_program *prg, t_philo *philo);
 
 #endif

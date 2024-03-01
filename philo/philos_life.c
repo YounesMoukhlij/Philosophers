@@ -6,7 +6,7 @@
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:47:48 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/16 19:40:37 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/23 11:06:51 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ void	philo_eats(t_philo *philo)
 	print_func(philo, "is eating");
 	philo->last_meal_time = what_time_now();
 	pthread_mutex_unlock(&(prg->eat_habbit));
-	time_between_taches(prg->time_to_eat, prg);
+	pthread_mutex_lock(&(prg->check_eaten_times));
 	(philo->eaten_times)++;
+	pthread_mutex_unlock(&(prg->check_eaten_times));
+	time_between_taches(prg->time_to_eat);
 	pthread_mutex_unlock(&(prg->forks[philo->left_fork_id]));
 	pthread_mutex_unlock(&(prg->forks[philo->right_fork_id]));
 }
@@ -42,16 +44,11 @@ void	*daily_philo_routine(void *param)
 		usleep(20000);
 	while (!is_dead(prg))
 	{
-		if (prg->philo_members == 1)
-		{
-			a_lonely_philo(prg);
-			break ;
-		}
-		if (prg->philo_all_ate)
+		if (check(prg))
 			break ;
 		philo_eats(philo);
 		print_func(philo, "is sleeping");
-		time_between_taches(prg->time_to_sleep, prg);
+		time_between_taches(prg->time_to_sleep);
 		print_func(philo, "is thinking");
 	}
 	return (NULL);
@@ -70,6 +67,8 @@ void	philos_life(t_program *prg)
 		if (pthread_create(&(phi[i].thread_id), NULL, \
 		daily_philo_routine, &(phi[i])))
 			return ;
+		pthread_mutex_lock(&(prg->eat_habbit));
 		phi[i].last_meal_time = what_time_now();
+		pthread_mutex_unlock(&(prg->eat_habbit));
 	}
 }

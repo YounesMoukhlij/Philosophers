@@ -6,16 +6,11 @@
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:29:50 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/16 18:08:21 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/23 19:09:00 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-void	show(void)
-{
-	system("leaks philo");
-}
 
 int	main(int ac, char **av)
 {

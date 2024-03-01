@@ -1,31 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosophers.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/23 17:24:14 by youmoukh          #+#    #+#             */
+/*   Updated: 2024/02/23 19:26:21 by youmoukh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "philosophers_bonus.h"
-
-int	check_one(t_philo *philo)
-{
-	sem_wait(philo->data->death);
-	if (philo->next_meal < what_time_now())
-	{
-		ft_print_message(DIED, philo);
-		sem_post(philo->data->stop);
-		return (1);
-	}
-	sem_post(philo->data->death);
-	return (0);
-}
-
-int	check_two(t_philo *philo)
-{
-	sem_wait(philo->data->death);
-	if ((philo->data->eat_counter != -1)
-		&& (philo->data->current_eat >= philo->data->max_eat))
-	{
-		sem_post(philo->data->stop);
-		return (1);
-	}
-	sem_post(philo->data->death);
-	return (0);
-}
 
 void	*ft_check_death(void *arg)
 {
@@ -42,31 +27,40 @@ void	*ft_check_death(void *arg)
 	return (NULL);
 }
 
+void	part_1(t_program *prg, t_philo *philo)
+{
+	sem_wait(prg->forks);
+	deliver_message(philo, "has taken a fork");
+	sem_wait(prg->forks);
+	deliver_message(philo, "has taken a fork");
+	deliver_message(philo, "is eating");
+	if (prg->eat_counter != -1)
+		prg->current_eat++;
+	time_between_taches(prg->time_to_eat);
+	philo->eating_time = what_time_now();
+}
+
 void	ft_routine(t_philo *philo)
 {
 	pthread_t	death;
 	t_program	*prg;
 
 	prg = philo->data;
+	sem_wait(prg->last_meaal);
 	philo->next_meal = what_time_now() + prg->time_to_die;
-	pthread_create(&death, NULL, ft_check_death, philo);
+	sem_post(prg->last_meaal);
+	pthread_create(&death, 0, ft_check_death, philo);
 	while (1)
 	{
-		sem_wait(prg->forks);
-		ft_print_message(FORK, philo);
-		sem_wait(prg->forks);
-		ft_print_message(FORK, philo);
-		ft_print_message(EATING, philo);
-		if (prg->eat_counter != -1)
-			prg->current_eat++;
-		time_between_taches(prg->time_to_eat);
-		philo->eating_time = what_time_now();
+		part_1(prg, philo);
+		sem_wait(prg->last_meaal);
 		philo->next_meal = philo->eating_time + prg->time_to_die;
+		sem_post(prg->last_meaal);
 		sem_post(prg->forks);
 		sem_post(prg->forks);
-		ft_print_message(SLEEPING, philo);
+		deliver_message(philo, "is sleeping");
 		time_between_taches(prg->time_to_sleep);
-		ft_print_message(THINKING, philo);
+		deliver_message(philo, "is thinking");
 	}
 	pthread_join(death, 0);
 }
@@ -100,5 +94,6 @@ int	main(int ac, char **av)
 	sem_wait(prg.stop);
 	inisialize_process(&prg, prg.philos);
 	sem_wait(prg.stop);
-	ft_destroy_all(&prg, prg.philos);
+	finish_all(&prg, prg.philos);
+	return (0);
 }

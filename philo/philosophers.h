@@ -6,7 +6,7 @@
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:28:29 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/16 18:08:49 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/02/23 19:19:11 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <limits.h>
-# include <string.h>
 # include <pthread.h>
 
 typedef struct s_philo
@@ -43,6 +42,9 @@ typedef struct s_program
 	int					philo_all_ate;
 	long long			time_start;
 	pthread_mutex_t		eat_habbit;
+	pthread_mutex_t		death;
+	pthread_mutex_t		all_eat;
+	pthread_mutex_t		check_eaten_times;
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		print_habbit;
 	t_philo				*philos;
@@ -50,6 +52,7 @@ typedef struct s_program
 
 int			ft_atoi(char *str);
 long long	what_time_now(void);
+int			check(t_program *prg);
 int			is_dead(t_program *prg);
 void		error_parsing(int mode);
 void		init_mutex(t_program *prg);
@@ -61,7 +64,7 @@ void		wake_up_philosophers(t_program *prg);
 void		init_all_infos(t_program *prg, char **av);
 void		error_message(t_program *philo, int mode);
 void		free_all_philos(t_program *prg, t_philo *philos);
-void		time_between_taches(long long time, t_program *prg);
+void		time_between_taches(long long time);
 void		check_if_some_philo_is_dead(t_program *r, t_philo *p);
-void		show(void);
+
 #endif

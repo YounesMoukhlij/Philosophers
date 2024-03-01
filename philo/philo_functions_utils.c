@@ -6,7 +6,7 @@
 /*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 15:38:02 by youmoukh          #+#    #+#             */
-/*   Updated: 2024/02/13 17:24:22 by youmoukh         ###   ########.fr       */
+/*   Updated: 2024/03/01 12:08:34 by youmoukh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,18 @@ long long	what_time_now(void)
 {
 	struct timeval	time;
 
-	gettimeofday(&time, NULL);
+	gettimeofday(&time, 0);
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-void	time_between_taches(long long time, t_program *prg)
+void	time_between_taches(long long time)
 {
 	long long	i;
 
 	i = what_time_now();
-	while (!(prg->dead))
+	while (what_time_now() - i <= time)
 	{
-		if (what_time_now() - i >= time)
-			break ;
-		usleep(50);
+		usleep(100);
 	}
 }
 
@@ -69,8 +67,12 @@ void	print_func(t_philo *prg, char *str)
 
 	p = prg->philos_infos;
 	pthread_mutex_lock(&(p->print_habbit));
+	pthread_mutex_lock(&(p->death));
 	if (!(p->dead))
+	{
 		printf("%lld %d %s\n", (what_time_now() - p->time_start), \
 		prg->philo_id, str);
+	}
+	pthread_mutex_unlock(&(p->death));
 	pthread_mutex_unlock(&p->print_habbit);
 }

@@ -1,7 +1,19 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/02/23 17:58:34 by youmoukh          #+#    #+#              #
+#    Updated: 2024/02/23 19:35:25 by youmoukh         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 SRC =	philosophers.c \
 		ft_parse_param.c \
 		philo_functions_utils.c \
-		ft_init.c   \
+		init_all_infos.c   \
 
 OBJ = ${SRC:.c=.o}
 NAME = philo_bonus
@@ -13,8 +25,8 @@ all : ${NAME}
 	@cc ${CFLAGS} -c $< -o $@
 	@echo "\033[90mCompiling $< \033[0m"
 
-${NAME} : ${OBJ}
-	@cc ${OBJ} -o $@
+${NAME} : ${OBJ} philosophers_bonus.h
+	@cc ${CFLAGS} ${OBJ} -o $@
 	@echo "\033[43mLinked Successfully\033[0m"
 
 norm :

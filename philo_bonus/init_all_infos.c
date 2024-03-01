@@ -1,21 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_all_infos.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: youmoukh <youmoukh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/23 17:58:42 by youmoukh          #+#    #+#             */
+/*   Updated: 2024/02/23 19:10:20 by youmoukh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "philosophers_bonus.h"
-
 
 void	inisialize_semaphores(t_program *prg)
 {
 	sem_unlink("death");
 	sem_unlink("message");
 	sem_unlink("stop");
+	sem_unlink("last_meaal");
 	sem_unlink("forks");
 	prg->death = sem_open("death", O_CREAT, 0600, 1);
 	prg->message = sem_open("message", O_CREAT, 0600, 1);
 	prg->stop = sem_open("stop", O_CREAT, 0600, 1);
+	prg->last_meaal = sem_open("last_meaal", O_CREAT, 0600, 1);
 	prg->forks = sem_open("forks", O_CREAT, 0600,
 			prg->philo_numbers);
 }
 
-void	ft_destroy_all(t_program *prg, t_philo *philo)
+void	finish_all(t_program *prg, t_philo *philo)
 {
 	int	i;
 
@@ -25,6 +37,7 @@ void	ft_destroy_all(t_program *prg, t_philo *philo)
 	sem_close(prg->death);
 	sem_close(prg->message);
 	sem_close(prg->stop);
+	sem_close(prg->last_meaal);
 	sem_close(prg->forks);
 	free(philo);
 }
@@ -71,24 +84,10 @@ void	inisialize_data(t_program *prg, char **av)
 	}
 }
 
-void	ft_print_message(int id, t_philo *philo)
+void	deliver_message(t_philo *philo, char *str)
 {
-	long long	time;
-
-	time = what_time_now() - philo->data->start;
 	sem_wait(philo->data->message);
-	if (id == FORK)
-		printf("%lld\t%d has taken a fork\n", time, philo->index + 1);
-	else if (id == EATING)
-		printf("%lld\t%d is eating\n", time, philo->index + 1);
-	else if (id == SLEEPING)
-		printf("%lld\t%d is sleeping\n", time, philo->index + 1);
-	else if (id == THINKING)
-		printf("%lld\t%d is thinking\n", time, philo->index + 1);
-	else if (id == DIED)
-		printf("%lld\t%d died\n", time, philo->index + 1);
-	else if (id == DONE)
-		printf("prg is Done :)\n");
-	if (id != DIED)
-		sem_post(philo->data->message);
+	printf("%lld %d %s\n", (what_time_now() - philo->data->start), \
+		philo->index + 1, str);
+	sem_post(philo->data->message);
 }
